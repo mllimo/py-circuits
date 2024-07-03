@@ -1,3 +1,5 @@
+import typing
+
 import pyray as pr
 
 from MVC.models.component_model import ComponentModel
@@ -9,10 +11,38 @@ import utils.list
 class GridModel(ComponentModel):
 
     class Cell:
-        def __init__(self) -> None:
-            self.width = 0
-            self.height = 0
-            self.content = None
+        def __init__(self, width = 0, height = 0, content = None) -> None:
+            self._width = width
+            self._height = height
+            self._content = content
+
+
+        def set_content(self, content: ComponentController):
+            self._content = content
+
+
+        def set_width(self, width):
+            self._width = width
+
+
+        def set_height(self, height):
+            self._height = height
+
+
+        def get_width(self) -> int:
+            return self._width
+
+
+        def get_height(self) -> int:
+            return self._height
+
+
+        def get_content(self):
+            return self._content
+
+
+        def copy(self):
+            return GridModel.Cell(self._width, self._height, self._content)
 
 
     def __init__(self) -> None:
@@ -40,12 +70,32 @@ class GridModel(ComponentModel):
         self._readjust_cells_size(size)
 
 
-    def at(self, x, y) -> Cell:
+    def set_at(self, x, y, element: ComponentController):
         index = self._2d_to_1d(pr.Vector2(x, y))
         if index >= len(self._cells):
-            raise IndexError("Índice fuera de rango")
+            raise IndexError("grid index out of range")
 
-        return self._cells[index]
+        cell: GridModel.Cell = self._cells[index]
+        new_x = self.get_position().x + cell.get_width()   * x
+        new_y = self.get_position().y + cell.get_height()  * y
+        element.set_position(pr.Vector2(new_x, new_y))
+        cell.set_content(element)
+
+
+    def _set_at(self, x, y, cell: Cell):
+        index = self._2d_to_1d(pr.Vector2(x, y))
+        if index >= len(self._cells):
+            raise IndexError("grid index out of range")
+
+        self._cells[index] = cell
+
+
+    def get_at(self, x, y) -> Cell:
+        index = self._2d_to_1d(pr.Vector2(x, y))
+        if index >= len(self._cells):
+            raise IndexError("grid index out of range")
+
+        return self._cells[index].copy()
 
 
     def get_rows_columns(self) -> pr.Vector2:
@@ -55,6 +105,22 @@ class GridModel(ComponentModel):
     def get_color(self) -> pr.Color:
         return self._color
 
+    def collide_with_index(self, other: pr.Rectangle) -> pr.Vector2:
+        current_pos = self.get_position()
+        grid_size = self.get_rows_columns()
+
+        for y in range(0, int(grid_size.y)):
+            for x in range(0, int(grid_size.x)):
+                cell = self.get_at(x, y)
+                rect = pr.Rectangle(current_pos.x, current_pos.y, cell.get_width(), cell.get_height())
+                if pr.check_collision_recs(rect, other):
+                    return pr.Vector2(x, y)
+                current_pos.x += cell.get_width()
+
+            current_pos.y += self.get_at(0, y).get_height()
+            current_pos.x = self.get_position().x
+
+        return None
 
     def _readjust_cells_size(self, size: pr.Vector2):
         if self._columns == 0 or self._rows == 0:
@@ -63,11 +129,12 @@ class GridModel(ComponentModel):
         x_size = size.x / self._columns
         y_size = size.y / self._rows
 
-        for i in range(self._rows):
-            for j in range(self._columns):
-                cell = self.at(j, i)
-                cell.width = int(x_size)
-                cell.height = int(y_size)
+        for y in range(self._rows):
+            for x in range(self._columns):
+                cell = self.get_at(x, y)
+                cell.set_width(int(x_size))
+                cell.set_height(int(y_size))
+                self._set_at(x, y, cell)
 
 
     def _2d_to_1d(self, pos: pr.Vector2) -> int:

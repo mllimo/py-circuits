@@ -16,10 +16,10 @@ class GridView(ComponentView):
 
         for y in range(0, int(grid_size.y)):
             for x in range(0, int(grid_size.x)):
-                cell = model.at(x, y)
-                pr.draw_rectangle(int(current_pos.x), int(current_pos.y), cell.width, cell.height, model.get_color())
-                pr.draw_rectangle_lines(int(current_pos.x), int(current_pos.y), int(cell.width), int(cell.height), pr.BLACK)
-                current_pos.x += cell.width
+                cell = model.get_at(x, y)
+                pr.draw_rectangle(int(current_pos.x), int(current_pos.y), cell.get_width(), cell.get_height(), model.get_color())
+                pr.draw_rectangle_lines(int(current_pos.x), int(current_pos.y), cell.get_width(), cell.get_height(), pr.BLACK)
+                current_pos.x += cell.get_width()
 
-            current_pos.y += model.at(0, y).height
+            current_pos.y += model.get_at(0, y).get_height()
             current_pos.x = model.get_position().x

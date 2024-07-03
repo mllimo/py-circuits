@@ -25,9 +25,14 @@ class GridController(ComponentController):
         model.set_size(size)
 
 
-    def at(self, x, y) -> GridModel.Cell:
+    def set_at(self, x, y, element):
         model: GridModel = self._model
-        return model.at(x, y)
+        model.set_at(x, y, element)
+
+
+    def get_at(self, x, y) -> GridModel.Cell:
+        model: GridModel = self._model
+        return model.get_at(x, y)
 
 
     def get_rows_columns(self) -> pr.Vector2:
@@ -38,3 +43,8 @@ class GridController(ComponentController):
     def get_color(self) -> pr.Color:
         model: GridModel = self._model
         return model.get_color()
+
+
+    def collide_with_index(self, other: pr.Rectangle) -> pr.Vector2:
+        model: GridModel = self._model
+        return model.collide_with_index(other)

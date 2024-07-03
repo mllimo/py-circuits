@@ -29,8 +29,7 @@ def run():
     box.set_color(pr.YELLOW)
     box.set_texture(texture)
 
-    ticks = 0
-    begin = None
+
     while not pr.window_should_close():
         # events
 
@@ -46,7 +45,17 @@ def run():
 
         if cursor.get_selection() is not None and pr.is_mouse_button_down(pr.MouseButton.MOUSE_BUTTON_LEFT):
             cursor.get_selection().set_position(cursor.get_position())
-        
+            
+        if pr.is_mouse_button_released(pr.MouseButton.MOUSE_BUTTON_LEFT):
+            cursor.set_selection(None)
+
+        collision_index = grid.collide_with_index(box.get_rect())
+        if collision_index is not None:
+            print(f'Colliding with pos {collision_index.x},{collision_index.y}')
+            if cursor.get_selection() is not None:
+                grid.set_at(collision_index.x, collision_index.y, cursor.get_selection())
+
+
         # draw
         pr.clear_background(pr.BLACK)
         pr.begin_drawing()
@@ -54,6 +63,7 @@ def run():
         grid.display()
         box.display()
         
+        pr.draw_fps(10, 10)
         pr.end_drawing()
 
     pr.close_window()
