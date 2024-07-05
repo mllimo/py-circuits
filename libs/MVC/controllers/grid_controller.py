@@ -45,6 +45,11 @@ class GridController(ComponentController):
         return model.get_color()
 
 
+    def get_size(self) -> pr.Vector2:
+        model: GridModel = self._model
+        return model.get_size()
+
+
     def collide_with_index(self, other: pr.Rectangle) -> pr.Vector2:
         model: GridModel = self._model
         return model.collide_with_index(other)

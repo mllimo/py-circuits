@@ -106,6 +106,10 @@ class GridModel(ComponentModel):
         return self._color
 
 
+    def get_size(self) -> pr.Vector2:
+        return self._size
+
+
     def collide_with_index(self, other: pr.Rectangle) -> pr.Vector2:
         current_pos = self.get_position()
         grid_size = self.get_rows_columns()
