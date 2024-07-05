@@ -32,6 +32,7 @@ def test_set_size(grid_controller: GridController):
     grid_controller.set_size(new_size)
     assert pr.vector2_equals(grid_controller.get_size(), new_size)
 
+
 def test_set_at(grid_controller: GridController):
     element = ComponentController(ComponentModel(), None)
     x, y = 2, 3
