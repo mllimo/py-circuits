@@ -2,11 +2,11 @@ import typing
 
 import pyray as pr
 
-from MVC.models.component_model import ComponentModel
-from MVC.controllers.component_controller import ComponentController
+from libs.MVC.models.component_model import ComponentModel
+from libs.MVC.controllers.component_controller import ComponentController
 
-import utils
-import utils.list
+import libs.utils.list
+
 
 class GridModel(ComponentModel):
 
@@ -61,7 +61,7 @@ class GridModel(ComponentModel):
     def set_rows_columns(self, size: pr.Vector2):
         self._columns = int(size.x)
         self._rows = int(size.y)
-        self._cells = utils.list.resize_list(self._cells, self._columns * self._rows, default_value=GridModel.Cell())
+        self._cells = libs.utils.list.resize_list(self._cells, self._columns * self._rows, default_value=GridModel.Cell())
         self._readjust_cells_size(self._size)
 
 
@@ -105,6 +105,7 @@ class GridModel(ComponentModel):
     def get_color(self) -> pr.Color:
         return self._color
 
+
     def collide_with_index(self, other: pr.Rectangle) -> pr.Vector2:
         current_pos = self.get_position()
         grid_size = self.get_rows_columns()
@@ -121,6 +122,7 @@ class GridModel(ComponentModel):
             current_pos.x = self.get_position().x
 
         return None
+
 
     def _readjust_cells_size(self, size: pr.Vector2):
         if self._columns == 0 or self._rows == 0:

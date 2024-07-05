@@ -1,7 +1,7 @@
 import pyray as pr
 
-from MVC.models.component_model import ComponentModel
-from MVC.views.component_view import ComponentView
+from libs.MVC.models.component_model import ComponentModel
+from libs.MVC.views.component_view import ComponentView
 
 
 class ComponentController:

@@ -1,7 +1,7 @@
 import pyray as pr
 
-from MVC.models.component_model import ComponentModel
-from MVC.controllers.component_controller import ComponentController
+from libs.MVC.models.component_model import ComponentModel
+from libs.MVC.controllers.component_controller import ComponentController
 
 class CursorModel(ComponentModel):
     def __init__(self) -> None:

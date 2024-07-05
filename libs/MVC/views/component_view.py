@@ -1,6 +1,6 @@
 import pyray as pr
 
-from MVC.models.box_model import BoxModel
+from libs.MVC.models.box_model import BoxModel
 
 
 class ComponentView:

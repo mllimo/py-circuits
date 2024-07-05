@@ -1,8 +1,8 @@
 import pyray as pr
 
-from MVC.controllers.component_controller import ComponentController
-from MVC.models.grid_model import GridModel
-from MVC.views.gird_view import GridView
+from libs.MVC.controllers.component_controller import ComponentController
+from libs.MVC.models.grid_model import GridModel
+from libs.MVC.views.gird_view import GridView
 
 
 class GridController(ComponentController):

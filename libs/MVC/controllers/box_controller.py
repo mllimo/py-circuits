@@ -2,9 +2,9 @@ from typing import Tuple
 
 import pyray as pr
 
-from MVC.controllers.component_controller import ComponentController
-from MVC.models.box_model import BoxModel
-from MVC.views.box_view import BoxView
+from libs.MVC.controllers.component_controller import ComponentController
+from libs.MVC.models.box_model import BoxModel
+from libs.MVC.views.box_view import BoxView
 
 class BoxController(ComponentController):
     def __init__(self, rectangle: pr.Rectangle) -> None:

@@ -3,9 +3,9 @@ import enum
 
 import pyray as pr
 
-from MVC.controllers.box_controller import BoxController
-from MVC.controllers.cursor_controller import CursorController
-from MVC.controllers.grid_controller import GridController
+from libs.MVC.controllers.box_controller import BoxController
+from libs.MVC.controllers.cursor_controller import CursorController
+from libs.MVC.controllers.grid_controller import GridController
 
 
 pr.init_window(800, 450, "Hello Pyray")
@@ -45,7 +45,7 @@ def run():
 
         if cursor.get_selection() is not None and pr.is_mouse_button_down(pr.MouseButton.MOUSE_BUTTON_LEFT):
             cursor.get_selection().set_position(cursor.get_position())
-            
+
         if pr.is_mouse_button_released(pr.MouseButton.MOUSE_BUTTON_LEFT):
             cursor.set_selection(None)
 
